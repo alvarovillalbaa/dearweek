@@ -4,7 +4,7 @@ Owner review required. This copy has not been submitted to either store. Adverti
 
 ## Listing copy
 
-App name: **Welyto**
+App name: **Dearweek**
 
 Apple subtitle: **Your family's weekly memories**
 
@@ -14,7 +14,7 @@ Full description draft:
 
 > The little stories are the ones you want to keep.
 >
-> Welyto gives your family a place to save them together. Write about a moment, add a date and a photo, and choose who gets to see it.
+> Dearweek gives your family a place to save them together. Write about a moment, add a date and a photo, and choose who gets to see it.
 >
 > Make a weekly habit of remembering. Revisit the memories your family has shared this week, or search your collection by story, person, place or tag.
 >
@@ -22,7 +22,7 @@ Full description draft:
 >
 > Family owners and admins manage membership. Private memories stay limited to their chosen audience. You can archive your memories, transfer family ownership and delete your account from the app.
 >
-> An account and internet connection are required. Photos and stories are stored through the Welyto service; they are not end-to-end encrypted. People can keep copies of content they have already downloaded.
+> An account and internet connection are required. Photos and stories are stored through the Dearweek service; they are not end-to-end encrypted. People can keep copies of content they have already downloaded.
 
 Suggested category: **Lifestyle**, subject to the publisher's final store classification. Do not select a Kids category merely because family members appear in memories.
 
@@ -44,7 +44,7 @@ The intended initial app has no advertising, payment flow, behavioral analytics 
 
 ## Required owner-supplied material
 
-- Publisher identity and a working private support/privacy contact; final publicly accessible privacy and web account-deletion URLs. A GitHub repository alone is not the account-deletion service.
+- Publisher identity and final publicly accessible privacy and web account-deletion URLs. The owner supplied [alvaro.villalbaperez@icloud.com](mailto:alvaro.villalbaperez@icloud.com) for support/privacy requests; support-form delivery still needs its own acceptance proof. A GitHub repository alone is not the account-deletion service.
 - Store account/team IDs and registered identifiers. Keep private signing and submission credentials in the owner's credential service, never this repository.
 - Authentic iPhone/iPad and Android screenshots for the supported form factors, using consented test data. Add actual screenshot files only after those builds run.
 - A functioning reviewer account and exact invitation/deletion review steps in the stores' private review notes, with owner consent for any included data.
@@ -52,3 +52,5 @@ The intended initial app has no advertising, payment flow, behavioral analytics 
 - Final deletion/retention explanation matching `docs/privacy.md`, the deployed deletion functions and provider backup/log settings. Apple requires an in-app account-deletion path for account-creating apps; Google also requires an external web path. [Apple deletion guidance](https://developer.apple.com/support/offering-account-deletion-in-your-app/), [Google deletion guidance](https://support.google.com/googleplay/android-developer/answer/13327111)
 
 Native acceptance, build artifacts, submission and public store URLs are tracked separately in [the native release guide](native-release.md).
+
+The owner confirmed that no Expo account exists. The Dearweek identifiers `com.alvarovillalbaa.dearweek` are unregistered; the listing is a draft until the native account, build and store gates are completed.

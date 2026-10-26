@@ -26,7 +26,7 @@ if (Platform.OS !== 'web' && supabase) {
 }
 
 function client() {
-  if (!supabase) throw new Error('Welyto is not connected yet. Please try again after setup is complete.');
+  if (!supabase) throw new Error('Dearweek is not connected yet. Please try again after setup is complete.');
   return supabase;
 }
 async function rpc<T = void>(name: string, args: Record<string, unknown>): Promise<T> {

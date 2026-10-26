@@ -1,6 +1,8 @@
-# Persistence and access model
+# Dearweek persistence and access model
 
 This document describes the source implementation. It does not establish deployed Auth, Storage, RLS, concurrency, email delivery, native-device, or store acceptance proof. The initial SQL is promoted into a CLI-created migration before application. Keep `private` out of the Data API's exposed schemas.
+
+Dearweek is the current product name. The original Welyto migration, constraint/policy names and SQL fixture namespace remain unchanged; renaming the product does not create another database or alter its authorization contract.
 
 ## Ownership and audiences
 

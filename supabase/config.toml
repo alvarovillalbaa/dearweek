@@ -1,4 +1,4 @@
-project_id = "welyto"
+project_id = "dearweek"
 
 [functions.delete-account]
 verify_jwt = true

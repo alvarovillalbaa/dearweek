@@ -1,6 +1,7 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" role="img" aria-labelledby="title">
+  <title id="title">Dearweek</title>
   <rect width="1024" height="1024" fill="#f5f0e6"/>
-  <circle cx="748" cy="276" r="62" fill="#bd6b4d"/>
-  <path d="M220 350 358 704 512 424 666 704 804 350" fill="none" stroke="#405447" stroke-width="76" stroke-linecap="round" stroke-linejoin="round"/>
-  <path d="M364 814 Q512 866 660 814" fill="none" stroke="#bd6b4d" stroke-width="28" stroke-linecap="round"/>
+  <path d="M276 250H482A262 262 0 0 1 482 774H276Z M364 338V686H482A174 174 0 0 0 482 338Z" fill="#405447" fill-rule="evenodd"/>
+  <path d="M434 608C410 498 488 420 610 410C632 520 560 602 434 608Z" fill="#bd6b4d"/>
+  <path d="M452 586 588 434" fill="none" stroke="#f5f0e6" stroke-width="14" stroke-linecap="round"/>
 </svg>

@@ -1,14 +1,14 @@
 # Native release
 
-Welyto's source targets iOS, Android and web. A successful Vercel web export proves neither native compilation nor store publication. Record actual build IDs, artifact hashes, device results and store URLs in `docs/results/` as those steps happen.
+Dearweek's source targets iOS, Android and web. A successful Vercel web export proves neither native compilation nor store publication. Record actual build IDs, artifact hashes, device results and store URLs in `docs/results/` as those steps happen.
 
-The initial native identifiers are `com.alvarovillalbaa.welyto`. Their availability and registration in the owner's store accounts have not been established. Do not create a different identifier to work around an ownership conflict without the owner choosing it.
+The native identifiers are `com.alvarovillalbaa.dearweek`. These identifiers have not been registered. Confirm their availability in the owner's store accounts before registration; do not choose a replacement identifier without the owner choosing it.
 
 ## Accounts and environment
 
-The owner supplies the Expo account/project, Apple Developer team and App Store Connect access, and Google Play Console access. Store builds require the appropriate signing credentials. [Expo's build setup](https://docs.expo.dev/build/setup/) distinguishes installable previews from store builds and describes these account requirements.
+The owner explicitly confirmed that no Expo account exists. No Expo owner or EAS project ID is linked in this repository. An owner-controlled Expo account/project is required before using EAS; account creation has not been performed. Apple Developer team, App Store Connect and Google Play Console ownership remain to be established. Store builds require the appropriate signing credentials. [Expo's build setup](https://docs.expo.dev/build/setup/) distinguishes installable previews from store builds and describes these account requirements.
 
-Set the same reviewed Supabase URL and publishable key in the EAS environment used by each profile. These client values are intentionally public; service-role keys, SMTP passwords, Apple keys and Google service-account JSON never belong in `EXPO_PUBLIC_*`, app configuration or Git. Verify the Auth redirect allowlist includes the production web origin and `welyto://auth/callback` before building. Keep email confirmation enabled and complete production SMTP delivery checks.
+Set the same reviewed Supabase URL and publishable key in the EAS environment used by each profile. These client values are intentionally public; service-role keys, SMTP passwords, Apple keys and Google service-account JSON never belong in `EXPO_PUBLIC_*`, app configuration or Git. Verify the Auth redirect allowlist includes the production web origin and `dearweek://auth/callback` before building. Keep email confirmation enabled and complete production SMTP delivery checks.
 
 After owner authentication, use the installed EAS CLI's help to verify its current commands. Link the owner-selected existing project, or create one under the owner's selected Expo account; do not insert a fabricated EAS project ID. `eas project:init` and `eas build:configure --platform all` are the documented setup commands. Review their configuration changes. [EAS CLI reference](https://docs.expo.dev/eas/cli/)
 
@@ -47,7 +47,7 @@ Use consented test content and accounts. Do not put real relatives' photos in a 
 
 ## Owner release inputs still required
 
-The publisher must confirm account/team ownership, identifier registration, signing custody and any build/service charges. Supply the publisher's identity, working private support/privacy contact, final policy URL, deletion URL, supported countries and intended audience. Review the draft [store listing and data declarations](store-listing.md) against the final native binary and provider configuration. Capture screenshots from real builds with consented content and provide store reviewers a functioning test account through the store's private review channel.
+The publisher must confirm account/team ownership, identifier registration, signing custody and any build/service charges. The supplied support/privacy contact is [alvaro.villalbaperez@icloud.com](mailto:alvaro.villalbaperez@icloud.com); verify support-form delivery separately. Supply the publisher's identity, final policy URL, deletion URL, supported countries and intended audience. The current web origin is `https://dearweek.vercel.app`; the native return URL is `dearweek://auth/callback`. Review the draft [store listing and data declarations](store-listing.md) against the final native binary and provider configuration. Capture screenshots from real builds with consented content and provide store reviewers a functioning test account through the store's private review channel.
 
 Complete Apple privacy answers, age-rating questions, export-compliance answers and any required SDK privacy manifests for the actual binary. The current Apple age rating comes from its questionnaire; no fixed rating is assigned by this source repository. [Apple age ratings](https://developer.apple.com/help/app-store-connect/manage-app-information/set-an-app-age-rating)
 

@@ -1,8 +1,8 @@
 {
   "expo": {
-    "name": "Welyto",
-    "slug": "welyto",
-    "scheme": "welyto",
+    "name": "Dearweek",
+    "slug": "dearweek",
+    "scheme": "dearweek",
     "version": "1.0.0",
     "orientation": "default",
     "userInterfaceStyle": "light",
@@ -10,17 +10,17 @@
     "platforms": ["ios", "android", "web"],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.alvarovillalbaa.welyto",
+      "bundleIdentifier": "com.alvarovillalbaa.dearweek",
       "buildNumber": "1",
       "infoPlist": { "ITSAppUsesNonExemptEncryption": false }
     },
     "android": {
-      "package": "com.alvarovillalbaa.welyto",
+      "package": "com.alvarovillalbaa.dearweek",
       "versionCode": 1,
       "adaptiveIcon": { "foregroundImage": "./assets/adaptive-icon.png", "backgroundColor": "#F6F3EA" },
       "blockedPermissions": ["android.permission.RECORD_AUDIO", "android.permission.CAMERA", "android.permission.READ_MEDIA_IMAGES", "android.permission.READ_MEDIA_VIDEO"]
     },
-    "web": { "bundler": "metro", "output": "single", "favicon": "./assets/favicon.png", "name": "Welyto — a little closer, every week" },
+    "web": { "bundler": "metro", "output": "single", "favicon": "./assets/favicon.png", "name": "Dearweek — a little closer, every week" },
     "plugins": [["expo-image-picker", { "photosPermission": "Choose a photo to add to your family's private memories.", "cameraPermission": false, "microphonePermission": false }]]
   }
 }

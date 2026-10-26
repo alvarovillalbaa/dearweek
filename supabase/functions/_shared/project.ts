@@ -8,6 +8,6 @@ export const publicProject: Readonly<{
 }> = Object.freeze({
   url: 'https://faftywddybmgamvseibe.supabase.co',
   publishableKey: 'sb_publishable_DSWjakNpbunPZG3puPhtDw_GZ5ojSoh',
-  siteUrl: 'https://welyto.vercel.app',
+  siteUrl: 'https://dearweek.vercel.app',
   emailDeliveryVerified: false,
 });

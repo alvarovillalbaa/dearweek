@@ -1,15 +1,16 @@
-# Welyto product and release contract
+# Dearweek product and release contract
 
-Source: [Welyto in Notion](https://app.notion.com/p/3fea1ee8bd06804bbfc1db4d900bbdd5), inspected 2026-10-26. The brief asks for weekly memories contributed by the whole family, shared family access with admin/custom permissions, a structured memory data model, and releases on the App Store and Google Play. These four requirements are the source scope; the implementation choices below make them concrete.
+Source: [the original Welyto brief in Notion](https://app.notion.com/p/3fea1ee8bd06804bbfc1db4d900bbdd5), inspected 2026-10-26. The brief asks for weekly memories contributed by the whole family, shared family access with admin/custom permissions, a structured memory data model, and releases on the App Store and Google Play. These four requirements are the source scope; the implementation choices below make them concrete. On the same date, the owner requested a new name and delegated the choice; the product was renamed Dearweek. Historical receipts and immutable SQL retain the original name as provenance.
 
 ## Experience
 
-- Create an account with verified email, sign in, reset a password, create a family, or join an email-bound invitation. Invitation links are shared by the inviting person; Welyto does not send invitations on their behalf.
+- Create an account with verified email, sign in, reset a password, create a family, or join an email-bound invitation. Invitation links are shared by the inviting person; Dearweek does not send invitations on their behalf.
 - Save a memory with a title, story, memory date, optional place, people, tags and photos. A memory may be visible to the family, only its author, or selected current members. Selected members may receive view or edit access.
 - Browse and search memories by title/story/place/tag/person, filter by person, and revisit the week's contributions. A contribution counts in the Monday-based week of its creation in the family's timezone, not the historical memory date. Only visible contributions count in the viewer's recap.
 - Owners and admins invite and remove members. Owners appoint admins and transfer ownership; admins cannot promote themselves or change the owner. Members contribute; viewers read. Removing a member revokes fresh API and original-photo access. Previously downloaded copies cannot be recalled.
 - An author's private memory is not automatically visible to an admin. Membership administration never implies audience access. Editors cannot change a memory's author or family. Only authors change audiences or archive their memories.
 - Show loading, empty, error, retry and narrow-screen states. Failed saves retain the draft; photo failures are explicitly identified. No fake family content, fabricated activity, or optimistic persistence claims.
+- The owner's follow-up adds a support form addressed to `alvaro.villalbaperez@icloud.com`. A delivery success must represent an accepted server-side send; failed sends retain the message for retry. The form's implementation and delivery evidence are separate from the original four brief requirements.
 
 ## Data and transport
 
@@ -41,7 +42,7 @@ Deletion begins with an authenticated database marker that blocks new writes and
 
 ## Release boundaries
 
-Expo SDK 58 supplies native iOS/Android projects and a Vercel web export. Native identifiers are `com.alvarovillalbaa.welyto` pending store registration. EAS profiles express preview APK/simulator and store AAB/iOS builds. Signing, developer accounts, binary builds, device checks and store review are separate acceptance gates. No account, subscription or legal agreement is created or accepted silently.
+Expo SDK 58 supplies native iOS/Android projects and a Vercel web export. Native identifiers are `com.alvarovillalbaa.dearweek` and have not been registered. The owner confirmed that no Expo account exists. EAS profiles express preview APK/simulator and store AAB/iOS builds. Signing, developer accounts, binary builds, device checks and store review are separate acceptance gates. No account, subscription or legal agreement is created or accepted silently.
 
 Email confirmation stays enabled. Supabase default email delivery can be restricted; production SMTP and delivery proof are explicit release requirements. No autoconfirm workaround is allowed. The app does not include AI, notifications, contacts import or offline synchronization: the source brief does not request them.
 
