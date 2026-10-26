@@ -1,0 +1,38 @@
+{
+  "date": "2026-10-26",
+  "project_id": "faftywddybmgamvseibe",
+  "source_commit": "ccba2ff91f7f35cbdfa0387ce0fe65924acbcbe5",
+  "deployment_id": "dpl_HectVVhwzLe7Cchhwmggd3S2d3Uy",
+  "confirmed_disposable_accounts_created": 2,
+  "fixture_run": "1793046556063",
+  "member_account_deletion_postcheck": [
+    {
+      "deleted_member_auth": 0,
+      "deleted_member_profile": 0,
+      "deleted_memberships": 0,
+      "families_preserved": 1,
+      "owner_memories_preserved": 2
+    }
+  ],
+  "final_postcheck": [
+    {
+      "auth_accounts": 0,
+      "profiles": 0,
+      "families": 0,
+      "members": 0,
+      "invitations": 0,
+      "invitation_tokens": 0,
+      "memories": 0,
+      "people": 0,
+      "memory_people": 0,
+      "memory_recipients": 0,
+      "photos": 0,
+      "account_markers": 0,
+      "family_markers": 0,
+      "photo_objects": 0
+    }
+  ],
+  "email_delivery_verified": false,
+  "photo_upload_verified": false,
+  "native_device_verified": false
+}

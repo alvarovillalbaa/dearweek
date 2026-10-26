@@ -1,0 +1,49 @@
+{
+  "date": "2026-10-26",
+  "source_commit": "6bd72d9e0f55c4d40c12cb9dd54a630071356d28",
+  "deployment_id": "dpl_BPYF6D8X3S5ThPQsrHJDRCoyANRn",
+  "project_id": "faftywddybmgamvseibe",
+  "cleanup": "One newly created disposable owner, family and saved story were removed through the actual v2 delete-family and delete-account app controls; no manual SQL cleanup.",
+  "counts": {
+    "auth_accounts": 0,
+    "profiles": 0,
+    "families": 0,
+    "members": 0,
+    "invitations": 0,
+    "invitation_tokens": 0,
+    "memories": 0,
+    "people": 0,
+    "memory_people": 0,
+    "memory_recipients": 0,
+    "photos": 0,
+    "account_markers": 0,
+    "family_markers": 0,
+    "photo_objects": 0
+  },
+  "functions": [
+    {
+      "id": "34555f75-0e7e-49dd-b9b4-ab4a5170a83a",
+      "slug": "delete-account",
+      "name": "delete-account",
+      "status": "ACTIVE",
+      "version": 2,
+      "created_at": 1793044970516,
+      "updated_at": 1793048472552,
+      "verify_jwt": true,
+      "import_map": false,
+      "ezbr_sha256": "3afa87cb86ba722f7f2f0bddfde9eb36313b7c5c6c1be2b20ec8dc84289f93ef"
+    },
+    {
+      "id": "147a66ee-fd8c-45f4-8daa-a986bb4cea39",
+      "slug": "delete-family",
+      "name": "delete-family",
+      "status": "ACTIVE",
+      "version": 2,
+      "created_at": 1793044976002,
+      "updated_at": 1793048474422,
+      "verify_jwt": true,
+      "import_map": false,
+      "ezbr_sha256": "3994f46a3a9564abb1330a6e455a568a9506ecd9a37c88f157dee361ca0bcd95"
+    }
+  ]
+}

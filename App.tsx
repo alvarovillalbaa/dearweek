@@ -117,7 +117,7 @@ function AppContent() {
     } catch (e) { setInviteError(errorMessage(e)); } finally { setInviteBusy(false); }
   }
   async function dismissInvitation() { try { await AsyncStorage.removeItem(INVITE_KEY); setInvite(''); setInviteError(''); if (Platform.OS === 'web' && typeof window !== 'undefined') { const url = new URL(window.location.href); url.searchParams.delete('invite'); window.history.replaceState({}, '', `${url.pathname}${url.search}${url.hash}`); } } catch (e) { setInviteError(errorMessage(e)); } }
-  function familyRemoved() { currentFamily.current = undefined; setFamilyId(undefined); setData(null); setCreateOpen(false); void refresh().catch(() => undefined); }
+  function familyRemoved() { currentFamily.current = undefined; setFamilyId(undefined); setData(null); setCreateOpen(false); setToast(''); void refresh().catch(() => undefined); }
   function closeInfo() { setInfo(null); if (Platform.OS === 'web' && typeof window !== 'undefined') window.history.replaceState({}, '', '/'); }
   function openInfo(page: InfoPage) { setInfo(page); if (Platform.OS === 'web' && typeof window !== 'undefined') window.history.pushState({}, '', `/${page}`); }
   function signInToDelete() { closeInfo(); setTab('family'); }

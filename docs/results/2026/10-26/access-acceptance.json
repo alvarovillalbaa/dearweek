@@ -1,0 +1,86 @@
+{
+  "date": "2026-10-26",
+  "project_id": "faftywddybmgamvseibe",
+  "suite": "tests/access-acceptance.sql",
+  "sha256": "4a63e6ee11643d0f50203f7eb3df419d34115b8b97aae9d1b98289c8656ca076",
+  "result": [
+    {
+      "access_acceptance": {
+        "checks": [
+          "RLS invoker RPC grants and private photo bucket limits",
+          "anonymous data creation reads and deletion stay denied",
+          "Auth fixture trigger creates bounded display-only profiles",
+          "unverified account and editable owner metadata do not grant access",
+          "family creation binds one owner and validates timezone",
+          "invitation hashes and seven-day expiry are persisted privately",
+          "wrong email unverified email and expired invitations fail closed",
+          "verified invitations install exact roles and profile updates stay owned",
+          "admin can invite and remove viewers but cannot escalate or replace owners",
+          "member invitation access and direct role mutations stay denied",
+          "author creates private family and selected memories with normalized people and tags",
+          "owner and admin management do not expose private memory or people data",
+          "viewer reads granted memories but cannot contribute or upload",
+          "outsider data is isolated and person identities remain family scoped",
+          "selected recipient with edit permission can update content",
+          "editor cannot change audience recipients family or author",
+          "only author archives and archived memories reject edits",
+          "recipient validation is atomic and direct cross-family people linking is denied",
+          "viewer demotion clears grants without blocking another selected editor",
+          "photo reservations reject unsupported MIME empty and oversized content",
+          "JPEG PNG and WebP reservations use exact pending paths and allow the byte boundary",
+          "photo cap missing-object completion and empty-reservation removal are enforced",
+          "private photo metadata and SQL original-photo authorizer exclude admins",
+          "removal revokes fresh access and invalidates a second outstanding invitation",
+          "fresh deliberate invitation restores membership without restoring old grants",
+          "non-owner self-leave invalidates invitations issued by that manager",
+          "ownership transfer is atomic and owner self-removal or outsider transfer fails",
+          "database owner constraints reject orphaning membership and Auth deletion",
+          "account deletion requires a non-owner authenticated guard before finalization",
+          "family deletion is owner-guarded and preserves narrow retry discovery",
+          "pending family blocks content writes and excludes other members from cleanup",
+          "family cleanup finalizes empty and unuploaded-only families without fabricated objects",
+          "pending account preserves retry profile and blocks new families or uploads",
+          "pending account cannot receive ownership and its authored content stays hidden",
+          "account data cleanup removes authored content and orphans while preserving retry and unrelated data",
+          "catalog configuration stays unchanged and valid final ownership constraints pass",
+          "all synthetic Auth profiles family content and deletion markers roll back"
+        ],
+        "passed": true,
+        "checks_passed": 37,
+        "proof_boundary": "PostgreSQL grants RLS sequential RPC authorization owner/audience/recipient constraints and reservation/deletion metadata only. No real signup email delivery JWT sessions Edge Functions Storage upload/download/object deletion device browser or concurrent-client proof.",
+        "storage_objects_mutated": false,
+        "fixture_residue_after_rollback": {
+          "photos": 0,
+          "families": 0,
+          "memories": 0,
+          "profiles": 0,
+          "auth_users": 0,
+          "memberships": 0,
+          "family_markers": 0,
+          "account_markers": 0,
+          "issued_invitation_hashes": 0
+        },
+        "catalog_snapshot_before_after_match": true
+      }
+    }
+  ],
+  "independent_postcheck": [
+    {
+      "auth_accounts": 0,
+      "profiles": 0,
+      "families": 0,
+      "members": 0,
+      "memories": 0,
+      "people": 0,
+      "photos": 0,
+      "account_markers": 0,
+      "family_markers": 0,
+      "photo_objects": 0
+    }
+  ],
+  "initial_attempt": {
+    "status": "parser_error_before_fixtures",
+    "sqlstate": "42601",
+    "correction": "Parenthesized three CASE expressions in photo assertions; no schema change. Independent counts remained zero before rerun."
+  }
+}
