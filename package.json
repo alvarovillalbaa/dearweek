@@ -1,0 +1,34 @@
+{
+  "name": "welyto",
+  "version": "1.0.0",
+  "private": true,
+  "main": "index.ts",
+  "engines": { "node": ">=22.13.0 <23 || >=24.3.0 <25 || >=26.0.0" },
+  "scripts": {
+    "start": "expo start",
+    "ios": "expo start --ios",
+    "android": "expo start --android",
+    "web": "expo start --web",
+    "build:web": "tsc --noEmit && expo export --platform web && node scripts/finalize-web.mjs",
+    "check": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@expo/metro-runtime": "58.0.15",
+    "@expo/vector-icons": "15.0.2",
+    "@react-native-async-storage/async-storage": "2.2.0",
+    "@supabase/supabase-js": "2.118.0",
+    "expo": "58.0.19",
+    "expo-file-system": "58.0.11",
+    "expo-image-manipulator": "58.0.15",
+    "expo-image-picker": "58.0.10",
+    "expo-linking": "58.0.14",
+    "expo-status-bar": "58.0.4",
+    "react": "19.3.0",
+    "react-dom": "19.3.0",
+    "react-native": "0.88.0",
+    "react-native-safe-area-context": "5.10.1",
+    "react-native-url-polyfill": "4.0.0",
+    "react-native-web": "0.21.4"
+  },
+  "devDependencies": { "@types/react": "19.3.0", "typescript": "6.0.3" }
+}

@@ -1,0 +1,7 @@
+project_id = "welyto"
+
+[functions.delete-account]
+verify_jwt = true
+
+[functions.delete-family]
+verify_jwt = true
