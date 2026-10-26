@@ -59,7 +59,7 @@ function AppContent() {
       try {
         const parsed = new URL(url);
         const page = parsed.searchParams.get('info') || parsed.pathname.replace(/^\/+|\/+$/g, '');
-        if (page === 'privacy' || page === 'delete-account') setInfo(page);
+        setInfo(page === 'privacy' || page === 'delete-account' ? page : null);
         const token = parsed.searchParams.get('invite');
         if (token) { if (!/^[A-Za-z0-9_-]{20,512}$/.test(token)) throw new Error('This invitation link is not valid. Ask your family for a new link.'); await AsyncStorage.setItem(INVITE_KEY, token); if (live) setInvite(token); }
         const completed = await completeAuthUrl(url);
@@ -68,7 +68,18 @@ function AppContent() {
     }
     Linking.getInitialURL().then(url => { if (url && live) void handleUrl(url); }).catch(e => { if (live) setError(errorMessage(e)); });
     const links = Linking.addEventListener('url', event => void handleUrl(event.url));
-    if (!supabase) return () => { live = false; links.remove(); };
+    const onPopState = () => {
+      if (!live || typeof window === 'undefined') return;
+      const parsed = new URL(window.location.href);
+      const page = parsed.searchParams.get('info') || parsed.pathname.replace(/^\/+|\/+$/g, '');
+      setInfo(page === 'privacy' || page === 'delete-account' ? page : null);
+    };
+    if (Platform.OS === 'web' && typeof window !== 'undefined') window.addEventListener('popstate', onPopState);
+    const cleanupLinks = () => {
+      live = false; links.remove();
+      if (Platform.OS === 'web' && typeof window !== 'undefined') window.removeEventListener('popstate', onPopState);
+    };
+    if (!supabase) return cleanupLinks;
     let authEventSeen = false;
     const subscription = supabase.auth.onAuthStateChange((event, next) => {
       if (!live) return;
@@ -83,7 +94,7 @@ function AppContent() {
     supabase.auth.getSession().then(({ data: auth, error: authError }) => {
       if (!live || authEventSeen) return; if (authError) setError(authError.message); identity.current = auth.session?.user.id ?? null; setSession(auth.session); setAuthReady(true);
     }).catch(e => { if (live) { setError(errorMessage(e)); setAuthReady(true); } });
-    return () => { live = false; links.remove(); subscription.data.subscription.unsubscribe(); clearPhotoCache(); };
+    return () => { cleanupLinks(); subscription.data.subscription.unsubscribe(); clearPhotoCache(); };
   }, []);
 
   useEffect(() => { if (userId && !recovery) void refresh().catch(() => undefined); }, [userId, recovery, refresh]);
