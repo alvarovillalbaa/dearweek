@@ -1,4 +1,5 @@
 import { createClient, type SupabaseClient } from 'npm:@supabase/supabase-js@2.118.0';
+import { publicProject } from './project.ts';
 
 const cors = {
   'Access-Control-Allow-Origin': '*',
@@ -28,7 +29,8 @@ const boundedFetch: typeof fetch = (input, init = {}) => fetch(input, {
 
 function configuration(): { url: string; publishableKey: string } {
   const url = Deno.env.get('SUPABASE_URL');
-  const publishableKey = Deno.env.get('SUPABASE_PUBLISHABLE_KEY');
+  const publishableKey = Deno.env.get('SUPABASE_PUBLISHABLE_KEY')
+    ?? (url === publicProject.url ? publicProject.publishableKey : '');
   if (!url || !publishableKey?.startsWith('sb_publishable_')) {
     throw new DeletionError(503, 'configuration_required', 'Account services are not configured.');
   }

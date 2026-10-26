@@ -6,11 +6,14 @@ import * as Linking from 'expo-linking';
 import * as ImagePicker from 'expo-image-picker';
 import { ImageManipulator, SaveFormat } from 'expo-image-manipulator';
 import { File } from 'expo-file-system';
+import { publicProject } from '../../supabase/functions/_shared/project';
 import type { Family, FamilyData, FamilyRole, Invitation, Member, Memory, MemoryDraft, Person, Photo, PickedPhoto, Profile, Recipient } from '../types';
 
-const projectUrl = process.env.EXPO_PUBLIC_SUPABASE_URL ?? '';
-const publishableKey = process.env.EXPO_PUBLIC_SUPABASE_PUBLISHABLE_KEY ?? '';
-export const isConfigured = /^https:\/\/[a-z0-9-]+\.supabase\.co$/.test(projectUrl) && publishableKey.length > 20;
+const projectUrl = process.env.EXPO_PUBLIC_SUPABASE_URL || publicProject.url;
+const publishableKey = process.env.EXPO_PUBLIC_SUPABASE_PUBLISHABLE_KEY || publicProject.publishableKey;
+export const emailDeliveryVerified = publicProject.emailDeliveryVerified;
+export const isConfigured = /^https:\/\/[a-z0-9-]+\.supabase\.co$/.test(projectUrl)
+  && /^sb_publishable_[A-Za-z0-9_-]+$/.test(publishableKey) && publishableKey.length > 20;
 export const supabase = isConfigured ? createClient(projectUrl, publishableKey, {
   auth: { storage: AsyncStorage, persistSession: true, autoRefreshToken: true, detectSessionInUrl: false, flowType: 'pkce', lock: processLock },
 }) : null;
@@ -108,7 +111,7 @@ export async function loadFamilyData(familyId?: string): Promise<FamilyData> {
 export const createFamily = (name: string, timezone: string) => rpc<string>('create_family', { p_name: name.trim(), p_timezone: timezone });
 export async function createInvitation(familyId: string, email: string, role: Exclude<FamilyRole, 'owner'>): Promise<string> {
   const token = await rpc<string>('create_invitation', { p_family_id: familyId, p_email: email.trim().toLowerCase(), p_role: role });
-  const base = Platform.OS === 'web' && typeof window !== 'undefined' ? window.location.origin : process.env.EXPO_PUBLIC_SITE_URL;
+  const base = Platform.OS === 'web' && typeof window !== 'undefined' ? window.location.origin : process.env.EXPO_PUBLIC_SITE_URL || publicProject.siteUrl;
   if (!base) throw new Error('The web invitation address is not configured. Ask the owner to finish setup.');
   return `${base}/?invite=${encodeURIComponent(token)}`;
 }
