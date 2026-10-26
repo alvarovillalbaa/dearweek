@@ -6,8 +6,8 @@ export const publicProject: Readonly<{
   siteUrl: string;
   emailDeliveryVerified: boolean;
 }> = Object.freeze({
-  url: '',
-  publishableKey: '',
+  url: 'https://faftywddybmgamvseibe.supabase.co',
+  publishableKey: 'sb_publishable_DSWjakNpbunPZG3puPhtDw_GZ5ojSoh',
   siteUrl: 'https://welyto.vercel.app',
   emailDeliveryVerified: false,
 });

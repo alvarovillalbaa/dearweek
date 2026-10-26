@@ -25,7 +25,19 @@ export function FamilySettings({ data, family, userId, email, role, onRefresh, o
   function memberAction(member: Member, kind: 'remove' | 'transfer') {
     setConfirm(kind === 'transfer' ? { title: `Make ${member.display_name} the owner?`, description: 'They will own this family and can manage membership. You will remain an admin. Only the new owner can transfer ownership again.', label: 'Transfer ownership', run: async () => { await transferOwnership(family.id, member.user_id); await onRefresh(); } } : { title: `Remove ${member.display_name}?`, description: 'They will lose fresh access to this family and its photos immediately. Memories they authored stay in the family. Previously downloaded copies cannot be recalled.', label: 'Remove member', run: async () => { await removeMember(family.id, member.user_id); await onRefresh(); } });
   }
-  async function saveName() { await run('profile', async () => { if (!supabase) throw new Error('Welyto is not connected.'); if (!displayName.trim()) throw new Error('Please enter your name.'); const result = await supabase.from('profiles').upsert({ id: userId, display_name: displayName.trim() }); if (result.error) throw result.error; await onRefresh(); }, 'Your name has been updated.'); }
+  async function saveName() {
+    await run('profile', async () => {
+      if (!supabase) throw new Error('Welyto is not connected.');
+      if (!displayName.trim()) throw new Error('Please enter your name.');
+      const result = await supabase.from('profiles')
+        .update({ display_name: displayName.trim() })
+        .eq('id', userId)
+        .select('id')
+        .single();
+      if (result.error) throw result.error;
+      await onRefresh();
+    }, 'Your name has been updated.');
+  }
   return <View style={common.stack}><View style={{ gap: 9, marginBottom: 9 }}><Text style={common.eyebrow}>THE PEOPLE BEHIND THE STORIES</Text><Text accessibilityRole="header" style={common.heading}>Our family</Text><Text style={common.muted}>A shared home. A little space for everyone.</Text></View>
     {error ? <Notice error text={error} /> : null}{message ? <Notice text={message} /> : null}
     {confirm ? <Confirmation title={confirm.title} description={confirm.description} confirmLabel={confirm.label} busy={busy === 'confirm'} onConfirm={() => void run('confirm', confirm.run, 'Your change is complete.')} onCancel={() => setConfirm(null)} /> : null}

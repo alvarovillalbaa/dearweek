@@ -415,10 +415,10 @@ begin
       v_photo_ids := array_append(v_photo_ids,v_photo);
       if v_photo is null or v_result->>'state' is distinct from 'pending'
         or (v_result->>'uploader_id')::uuid is distinct from v_c or (v_result->>'memory_id')::uuid is distinct from v_private
-        or v_result->>'content_type' is distinct from case v_index when 2 then 'image/png' when 3 then 'image/webp' else 'image/jpeg' end
-        or (v_result->>'byte_size')::bigint is distinct from case when v_index = 3 then 8388608 else 1 end
-        or v_result->>'storage_path' is distinct from v_family::text || '/' || v_private::text || '/' || v_photo::text ||
-          case v_index when 2 then '.png' when 3 then '.webp' else '.jpg' end then
+        or v_result->>'content_type' is distinct from (case v_index when 2 then 'image/png' when 3 then 'image/webp' else 'image/jpeg' end)
+        or (v_result->>'byte_size')::bigint is distinct from (case when v_index = 3 then 8388608 else 1 end)
+        or v_result->>'storage_path' is distinct from (v_family::text || '/' || v_private::text || '/' || v_photo::text ||
+          (case v_index when 2 then '.png' when 3 then '.webp' else '.jpg' end)) then
         raise exception 'Photo reservation must bind actor memory state and exact path.'; end if;
       if v_index = 1 then v_photo_path := v_result->>'storage_path'; end if;
     end loop;
