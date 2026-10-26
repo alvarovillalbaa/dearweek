@@ -2,6 +2,10 @@
 
 A little closer, every week. Welyto gives families a private place to collect memories, people, places and photos, with an audience chosen for each story.
 
+[Web app](https://welyto.vercel.app) · [Source](https://github.com/alvarovillalbaa/welyto)
+
+The web export is published. Account and memory saving services are currently unavailable because Supabase rejected the new project at its active-free-project limit. The owner’s database-capacity decision, authenticated acceptance and native store release remain open; see the [release evidence](docs/results/2026/10-26/release.md).
+
 This repository contains one Expo application for iOS, Android and web, plus a Supabase PostgreSQL/Auth/Storage backend. It implements the [Welyto brief](https://app.notion.com/p/3fea1ee8bd06804bbfc1db4d900bbdd5); [the product contract](docs/spec.md) distinguishes its four source requirements from implementation choices.
 
 ## Development

@@ -18,4 +18,12 @@ The owner has been asked whether they will enable a paid Supabase plan or author
 - Backend tests and browser checks have not run for Welyto. The earlier explicit acceptance authorization concerned Agent Library and was not reused here.
 - Auth delivery, authenticated cross-family access, photo round trips, deletion, signed native builds, device behavior and store publication are unverified.
 
-GitHub and Vercel publication receipts will be appended after the source is published and the hosted build reaches a final state. This file records partial delivery; the original end-to-end project goal remains open.
+## Published source and hosted build
+
+- Public repository: [alvarovillalbaa/welyto](https://github.com/alvarovillalbaa/welyto), initial source commit `9676b087e592f3212041234bd2fc56a368dcb6d2` on `main`.
+- Public web origin: [welyto.vercel.app](https://welyto.vercel.app). Vercel project `prj_ASLXJm4PxO3g5rLQilEO2uQDUaAc` is connected to that repository; production deployment `dpl_Cot6p2t17hVvT6CBRRC6f38pSBCR` reached `READY` with that exact source commit.
+- The hosted Node 24 build ran `tsc --noEmit && expo export --platform web && node scripts/finalize-web.mjs` successfully. Metro exported the app and its icon font. This establishes frontend compilation/export, not SQL/Edge compilation, browser acceptance or native binaries.
+- The first hosted install produced the exact committed dependency lock: 521 package entries, 248,440 bytes, SHA-256 `0aed2a47770c48a47183a73d25cb425484f25faddaadaedbcf6089af92ff5ce3`. Every direct dependency/dev dependency matches `package.json`. The lock was retrieved from the hosted deployment through the Vercel connector after the local shell could not resolve the new deployment hosts; no local dependency install ran.
+- The temporary dependency-lock export was removed from the build script, and subsequent builds use `npm ci`. A small owner-settings copy correction avoids inferring that a reduced pending-deletion roster proves a family has only one member.
+
+This records partial delivery. Database capacity, authenticated acceptance, native build/device verification and both store releases remain open; the original end-to-end project goal is not complete.
