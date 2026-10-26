@@ -10,5 +10,9 @@
     { "key": "Referrer-Policy", "value": "no-referrer" },
     { "key": "Permissions-Policy", "value": "camera=(), microphone=(), geolocation=()" }
   ] }],
-  "rewrites": [{ "source": "/((?!_expo/|assets/|robots.txt).*)", "destination": "/index.html" }]
+  "rewrites": [
+    { "source": "/privacy", "destination": "/index.html" },
+    { "source": "/delete-account", "destination": "/index.html" },
+    { "source": "/auth/callback", "destination": "/index.html" }
+  ]
 }
