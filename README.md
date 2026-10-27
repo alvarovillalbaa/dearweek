@@ -6,6 +6,8 @@ A little closer, every week. Dearweek gives families a private place to collect 
 
 The connected web app is published with its isolated free Supabase backend. The 37-group database pass and earlier owner/admin checks remain recorded; new Dearweek checks verified onboarding/contact routing, mobile family names, audience labels/search, and version 2 family/account deletion without uploaded photos. All runtime fixtures were removed through the app. Photo checks remain blocked by browser file access; email delivery and native store releases remain open. See the [current Dearweek release receipt](docs/results/2026/10-26/dearweek-release.md).
 
+A [photo-cache repair](docs/results/2026/10-27/photo-cache.md) prevents old loads from changing a refreshed view's cache and keeps overlapping blob URLs tracked for cleanup. Nine mocked client regressions pass; they do not close the browser chooser or real Storage acceptance gaps.
+
 This repository contains one Expo application for iOS, Android and web, plus a Supabase PostgreSQL/Auth/Storage backend. It implements the [original Welyto brief](https://app.notion.com/p/3fea1ee8bd06804bbfc1db4d900bbdd5). The owner requested a new name on 26 October 2026 and delegated the choice: Dearweek. [The product contract](docs/spec.md) distinguishes its four source requirements from implementation choices. Historical receipts retain the original name; the Dearweek web cutover is verified and native identifier registration remains open.
 
 ## Development

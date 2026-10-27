@@ -174,8 +174,10 @@ export function clearPhotoCache(): void {
 }
 export async function loadPhoto(photo: Photo, options: { force?: boolean } = {}): Promise<string> {
   if (photo.state !== 'ready') throw new Error('This photo has not finished uploading.');
+  const generation = photoGeneration;
   const { data: { user }, error: authError } = await client().auth.getUser();
   if (authError || !user) throw new Error('Sign in again to view this photo.');
+  if (generation !== photoGeneration) throw new Error('The family view changed while this photo loaded. Open the photo again.');
   const key = `${user.id}:${photo.id}`;
   if (options.force) {
     const previous = photoCache.get(key);
@@ -184,7 +186,6 @@ export async function loadPhoto(photo: Photo, options: { force?: boolean } = {})
   }
   const cached = photoCache.get(key);
   if (cached) return cached;
-  const generation = photoGeneration;
   const { data, error } = await client().storage.from(photoBucket).download(photo.storage_path);
   if (error) throw new Error(error.message);
   let uri: string;
@@ -198,6 +199,11 @@ export async function loadPhoto(photo: Photo, options: { force?: boolean } = {})
   if (generation !== photoGeneration) {
     if (uri.startsWith('blob:') && typeof URL.revokeObjectURL === 'function') URL.revokeObjectURL(uri);
     throw new Error('The family view changed while this photo loaded. Open the photo again.');
+  }
+  const concurrent = photoCache.get(key);
+  if (concurrent) {
+    if (uri.startsWith('blob:') && typeof URL.revokeObjectURL === 'function') URL.revokeObjectURL(uri);
+    return concurrent;
   }
   photoCache.set(key, uri);
   return uri;
