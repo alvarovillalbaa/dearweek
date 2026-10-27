@@ -8,6 +8,8 @@ The connected web app is published with its isolated free Supabase backend. The 
 
 A [photo-cache repair](docs/results/2026/10-27/photo-cache.md) prevents old loads from changing a refreshed view's cache and keeps overlapping blob URLs tracked for cleanup. Nine mocked client regressions pass; they do not close the browser chooser or real Storage acceptance gaps.
 
+The [editor retry repair](docs/results/2026/10-27/editor-photo-retry.md) keeps unsaved story/audience edits open after a photo-only retry and clears stale saved notices. Eleven mocked actual-component cases and the nine cache cases pass. Native/browser behavior and real photo operations retain their separate acceptance gates.
+
 This repository contains one Expo application for iOS, Android and web, plus a Supabase PostgreSQL/Auth/Storage backend. It implements the [original Welyto brief](https://app.notion.com/p/3fea1ee8bd06804bbfc1db4d900bbdd5). The owner requested a new name on 26 October 2026 and delegated the choice: Dearweek. [The product contract](docs/spec.md) distinguishes its four source requirements from implementation choices. Historical receipts retain the original name; the Dearweek web cutover is verified and native identifier registration remains open.
 
 ## Development

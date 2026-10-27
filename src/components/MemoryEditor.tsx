@@ -19,12 +19,13 @@ export function MemoryEditor({ memory, family, members, userId, role, onClose, o
   const [tags, setTags] = useState(memory?.tags.join(', ') ?? ''); const [visibility, setVisibility] = useState<Visibility>(memory?.visibility ?? 'family');
   const [recipients, setRecipients] = useState(memory?.recipients ?? []); const [savedId, setSavedId] = useState(memory?.id);
   const [photos, setPhotos] = useState<QueuedPhoto[]>([]); const [busy, setBusy] = useState(false); const [picking, setPicking] = useState(false);
-  const [error, setError] = useState(''); const [saved, setSaved] = useState(false); const [confirmClose, setConfirmClose] = useState(false);
+  const [error, setError] = useState(''); const [photoNotice, setPhotoNotice] = useState(''); const [saved, setSaved] = useState(false); const [confirmClose, setConfirmClose] = useState(false);
   const [dirty, setDirty] = useState(false); const manageAudience = !memory || memory.author_id === userId;
   const photoCount = (memory?.photos.length ?? 0) + photos.length;
   const split = (value: string) => [...new Set(value.split(',').map(v => v.trim()).filter(Boolean))];
-  function change(setter: (value: string) => void, value: string) { setter(value); setDirty(true); setSaved(false); }
-  function toggleRecipient(id: string) { setRecipients(current => current.some(r => r.user_id === id) ? current.filter(r => r.user_id !== id) : [...current, { user_id: id, can_edit: false }]); setDirty(true); }
+  function markDirty() { setDirty(true); setSaved(false); setError(''); setPhotoNotice(''); }
+  function change(setter: (value: string) => void, value: string) { setter(value); markDirty(); }
+  function toggleRecipient(id: string) { setRecipients(current => current.some(r => r.user_id === id) ? current.filter(r => r.user_id !== id) : [...current, { user_id: id, can_edit: false }]); markDirty(); }
   async function choosePhoto() {
     if (photoCount >= 20) { setError('A memory can hold up to 20 photos. Remove a photo before adding another.'); return; }
     setPicking(true); setError('');
@@ -40,7 +41,9 @@ export function MemoryEditor({ memory, family, members, userId, role, onClose, o
     return !failed;
   }
   async function submit(retryOnly = false) {
-    setError('');
+    if (busy || picking) return;
+    setError(''); setPhotoNotice('');
+    const keepDraftOpen = retryOnly && dirty;
     const validDate = /^\d{4}-\d{2}-\d{2}$/.test(date) && !Number.isNaN(new Date(`${date}T12:00:00Z`).valueOf()) && new Date(`${date}T12:00:00Z`).toISOString().slice(0, 10) === date;
     if (!retryOnly && (!title.trim() || !story.trim() || !validDate)) { setError('Add a title, a story and a valid date in YYYY-MM-DD format.'); return; }
     if (!retryOnly && visibility === 'selected' && recipients.length === 0) { setError('Choose at least one family member, or select Only me.'); return; }
@@ -54,25 +57,27 @@ export function MemoryEditor({ memory, family, members, userId, role, onClose, o
       if (!id) throw new Error('Save the memory before adding photos.');
       const complete = await uploadQueue(id, photos);
       await onSaved(id);
-      if (complete) onClose();
-      else setError('Your story is saved. Some photos did not upload. Retry them below; successful photos will not upload again.');
+      if (complete) {
+        if (keepDraftOpen) setPhotoNotice('Your photos are uploaded. Story or audience edits are still unsaved; choose Save changes to keep them.');
+        else onClose();
+      } else setError(keepDraftOpen ? 'Some photos did not upload. Your unsaved edits are still here. Retry the photos or save your changes below.' : 'Your story is saved. Some photos did not upload. Retry them below; successful photos will not upload again.');
     } catch (e) { setError(errorMessage(e)); } finally { setBusy(false); }
   }
-  function close() { if (busy) return; if (dirty || photos.some(p => p.state !== 'done')) setConfirmClose(true); else onClose(); }
+  function close() { if (busy || picking) return; if (dirty || photos.some(p => p.state !== 'done')) setConfirmClose(true); else onClose(); }
   return <Dialog title={memory ? 'A story, a little richer.' : 'What would you like to remember?'} eyebrow={memory ? 'EDIT MEMORY' : 'A MOMENT WORTH KEEPING'} onClose={close} wide>
-    {error ? <Notice text={error} error /> : null}{saved ? <Notice text="The memory is saved. Any unfinished photos are listed below." /> : null}
-    {confirmClose ? <Confirmation title="Leave this memory?" description={savedId ? 'Saved changes will stay. Unsaved edits and photos still waiting to upload will be discarded.' : 'This draft and selected photos have not been saved.'} confirmLabel="Discard unsaved changes" onConfirm={onClose} onCancel={() => setConfirmClose(false)} /> : null}
+    {error ? <Notice text={error} error /> : null}{photoNotice ? <Notice text={photoNotice} /> : null}{saved ? <Notice text="The memory is saved. Any unfinished photos are listed below." /> : null}
+    {confirmClose ? <Confirmation title="Leave this memory?" description={savedId ? 'Saved changes will stay. Unsaved edits and photos still waiting to upload will be discarded.' : 'This draft and selected photos have not been saved.'} confirmLabel="Discard unsaved changes" busy={busy || picking} onConfirm={() => { if (!busy && !picking) onClose(); }} onCancel={() => setConfirmClose(false)} /> : null}
     <Field label="Give this memory a title" placeholder="A few words to bring it all back" value={title} maxLength={160} onChangeText={v => change(setTitle, v)} editable={!busy} />
     <Field label="The story" placeholder="What happened? What made it yours? A few lines is plenty." value={story} multiline maxLength={20000} onChangeText={v => change(setStory, v)} editable={!busy} />
     <View style={styles.fields}><View style={styles.half}><Field label="Memory date" value={date} onChangeText={v => change(setDate, v)} placeholder="YYYY-MM-DD" hint="When it happened, even if it was years ago." editable={!busy} /></View><View style={styles.half}><Field label="Place · optional" value={place} onChangeText={v => change(setPlace, v)} placeholder="Somewhere special, or just home" editable={!busy} maxLength={200} /></View></View>
     <Field label="People · optional" value={people} onChangeText={v => change(setPeople, v)} placeholder="Names, separated by commas" hint="Include anyone in the story, even if they don’t have an account." editable={!busy} />
     <Field label="Tags · optional" value={tags} onChangeText={v => change(setTags, v)} placeholder="Sunday lunch, summer, firsts" editable={!busy} />
-    <View style={{ gap: 12 }}><Text style={styles.label}>Who can see this?</Text><View style={common.row}>{([['family', 'Our family'], ['private', 'Only me'], ['selected', 'Choose people']] as const).map(([value, label]) => <Pill key={value} label={label} active={visibility === value} onPress={manageAudience && !busy ? () => { setVisibility(value); setDirty(true); } : undefined} />)}</View>
-      {!manageAudience ? <Text style={common.muted}>Only the author can change who sees this memory.</Text> : visibility === 'selected' ? <View style={styles.audience}>{members.filter(m => m.user_id !== userId).map(member => { const recipient = recipients.find(r => r.user_id === member.user_id); return <View key={member.user_id} style={[common.row, { justifyContent: 'space-between' }]}><Pill label={`${recipient ? '✓ ' : ''}${member.display_name}`} active={!!recipient} onPress={!busy ? () => toggleRecipient(member.user_id) : undefined} />{recipient ? <Pill label={member.role === 'viewer' ? 'Viewer · can view' : recipient.can_edit ? 'Can edit' : 'Can view'} onPress={!busy && member.role !== 'viewer' ? () => { setRecipients(current => current.map(r => r.user_id === member.user_id ? { ...r, can_edit: !r.can_edit } : r)); setDirty(true); } : undefined} /> : null}</View>; })}<Text style={common.muted}>A viewer’s family role always limits them to reading, even when a memory has an edit grant.</Text>{members.filter(m => m.user_id !== userId).length === 0 ? <Text style={common.muted}>Invite someone to your family before choosing people.</Text> : null}</View> : <Text style={common.muted}>{visibility === 'private' ? 'A private memory stays yours, including from family admins.' : 'Current family members can view this memory.'}</Text>}
+    <View style={{ gap: 12 }}><Text style={styles.label}>Who can see this?</Text><View style={common.row}>{([['family', 'Our family'], ['private', 'Only me'], ['selected', 'Choose people']] as const).map(([value, label]) => <Pill key={value} label={label} active={visibility === value} onPress={manageAudience && !busy ? () => { setVisibility(value); markDirty(); } : undefined} />)}</View>
+      {!manageAudience ? <Text style={common.muted}>Only the author can change who sees this memory.</Text> : visibility === 'selected' ? <View style={styles.audience}>{members.filter(m => m.user_id !== userId).map(member => { const recipient = recipients.find(r => r.user_id === member.user_id); return <View key={member.user_id} style={[common.row, { justifyContent: 'space-between' }]}><Pill label={`${recipient ? '✓ ' : ''}${member.display_name}`} active={!!recipient} onPress={!busy ? () => toggleRecipient(member.user_id) : undefined} />{recipient ? <Pill label={member.role === 'viewer' ? 'Viewer · can view' : recipient.can_edit ? 'Can edit' : 'Can view'} onPress={!busy && member.role !== 'viewer' ? () => { setRecipients(current => current.map(r => r.user_id === member.user_id ? { ...r, can_edit: !r.can_edit } : r)); markDirty(); } : undefined} /> : null}</View>; })}<Text style={common.muted}>A viewer’s family role always limits them to reading, even when a memory has an edit grant.</Text>{members.filter(m => m.user_id !== userId).length === 0 ? <Text style={common.muted}>Invite someone to your family before choosing people.</Text> : null}</View> : <Text style={common.muted}>{visibility === 'private' ? 'A private memory stays yours, including from family admins.' : 'Current family members can view this memory.'}</Text>}
     </View>
     <View style={{ gap: 12 }}><View style={[common.row, { justifyContent: 'space-between' }]}><Text style={styles.label}>Photos</Text><Button title="Add a photo" icon="image-outline" variant="secondary" small onPress={() => void choosePhoto()} busy={picking} disabled={busy || photoCount >= 20} /></View><Text style={common.muted}>{photoCount}/20 photos. {memory?.photos.length ? 'Existing photos are available in the memory. Add more here.' : 'A photo can hold a whole other part of the story.'}</Text>
       {photos.map(item => <View key={item.key} style={styles.photo}><Image source={{ uri: item.photo.uri }} style={styles.thumbnail} accessibilityLabel={`Selected photo ${item.photo.fileName}`} /><View style={{ flex: 1, gap: 4 }}><Text numberOfLines={1} style={common.body}>{item.photo.fileName}</Text><Text style={[common.muted, item.state === 'failed' && { color: colors.danger }]}>{item.state === 'done' ? 'Uploaded' : item.state === 'uploading' ? 'Uploading…' : item.state === 'failed' ? item.error : 'Ready to upload'}</Text></View>{item.state !== 'done' ? <Button title="Remove" variant="quiet" small disabled={busy} onPress={() => setPhotos(current => current.filter(p => p.key !== item.key))} /> : null}</View>)}
-      {photos.some(p => p.state === 'failed') && savedId ? <Button title="Retry unfinished photos" icon="refresh-outline" variant="secondary" busy={busy} onPress={() => void submit(true)} /> : null}
+      {photos.some(p => p.state === 'failed') && savedId ? <Button title="Retry unfinished photos" icon="refresh-outline" variant="secondary" busy={busy} disabled={picking} onPress={() => void submit(true)} /> : null}
     </View>
     <View style={styles.footer}><Text style={[common.muted, { flex: 1, minWidth: 180 }]}>A new memory counts toward the week it is added, in {family.timezone}.</Text><Button title={savedId ? 'Save changes' : 'Save memory'} icon="checkmark-outline" onPress={() => void submit()} busy={busy} disabled={picking || role === 'viewer'} /></View>
   </Dialog>;
