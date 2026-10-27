@@ -1,6 +1,6 @@
 # Preserve edits during photo retry
 
-Status: frontend repair and focused mocked checks complete locally; source publication and hosted build/delivery readback pending below. Actual photo-picker/Storage, public email and native/store acceptance remain open.
+Status: frontend repair published, twenty focused mocked cases passed, hosted typecheck/export and public delivery verified. Actual photo-picker/Storage, public email and native/store acceptance remain open.
 
 ## Defect and remedy
 
@@ -40,4 +40,8 @@ Independent source review confirmed the dirty-retry behavior, parent integration
 
 ## Publication
 
-Pending source commit and production deployment readback at the time this section was authored.
+Source [0709b6ddb44996d950aa9a87e5c191a11539e0eb](https://github.com/alvarovillalbaa/dearweek/commit/0709b6ddb44996d950aa9a87e5c191a11539e0eb) matched the remote `main` readback. An immutable connected read of the edited component returned blob `9ff32f35c4078ffa1b58844296bcd7c430111ad2`, matching the local Git blob.
+
+Vercel production `dpl_HzdjPjeYSScDcoKL3kKSKbiNGbXz` reached `READY` at that SHA with `dearweek.vercel.app` assigned. Its build log records successful `tsc --noEmit && expo export --platform web && node scripts/finalize-web.mjs`, asset `_expo/static/js/web/index-dec4a93e904818318724d5f8355741c4.js`, build completion and deployment completion. The unchanged package/lock declare TypeScript 6.0.3 and Expo 58.0.19. This hosted typecheck is separate from the local mocked runner's TypeScript 5.9.3 transpilation.
+
+A connected HTTP fetch of [the public app](https://dearweek.vercel.app/) returned 200 and referenced that exact asset. No browser interaction, sign-in or photo workflow followed. A receipt-only publication update retains the checked product/test bytes and does not broaden acceptance.
