@@ -1,5 +1,7 @@
 # Dearweek rename and polish — 26 October 2026
 
+Follow-up: [27 October photo-cache repair](../10-27/photo-cache.md) owns the newer cache source, mocked regressions and hosted readback. The historical account/family checks below retain their original scope; actual photo, email and native acceptance remain open.
+
 Dearweek is published at [dearweek.vercel.app](https://dearweek.vercel.app), source `6bd72d9e0f55c4d40c12cb9dd54a630071356d28`, production deployment `dpl_BPYF6D8X3S5ThPQsrHJDRCoyANRn` in `READY`. The renamed app, contact UI, family/library improvements and authenticated deletion were checked on this origin. [Final runtime counts](dearweek-runtime-counts.json) show zero Auth accounts, all 12 application tables and photo objects after app-driven teardown. Photos, public email delivery and native store releases remain incomplete.
 
 ## Cutover and unchanged contracts

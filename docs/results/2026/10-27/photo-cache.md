@@ -1,6 +1,6 @@
 # Photo cache invalidation and overlapping loads
 
-Status: client repair verified with nine mocked cases; source publication and hosted readback pending. Real picker/upload/Storage acceptance remains open.
+Status: client repair published, nine mocked cases passed, hosted typecheck/export and public delivery verified. Real picker/upload/Storage acceptance remains open.
 
 The approved Welyto/Dearweek access/photo/deletion scope remains in force. Review of [the earlier runtime receipt](../10-26/runtime-checks.md#photo-check-blocked-by-browser-file-access) and [current release receipt](../10-26/dearweek-release.md#limits-and-final-follow-up) confirmed that a supported chooser retry had already failed after the owner enabled file-URL access, followed by another refusal from a freshly attached tab. No new browser state change was supplied. This turn did not repeat that denied operation, open a tab, create an account, upload a photo or change permissions. The browser connection was checked only for an existing handle; no page or profile state was inspected.
 
@@ -37,4 +37,10 @@ node --test tests/unit/photo-cache.test.mjs
 
 `DEARWEEK_TYPESCRIPT_PATH` may explicitly select an already available compatible compiler when a dependency install is unavailable. `DEARWEEK_PHOTO_API_SOURCE` supports a task-owned baseline snapshot for regression sensitivity. The loader mocks the same platform/provider boundary for that source. Do not substitute this for the app's real compiler, real SDK, native picker, JPEG conversion, Auth session, Storage round trip or UI integration.
 
-No browser/backend/provider check, account or production row/object mutation, model call, schema/Auth/config/dependency/CI change, local app build or native capture occurred. Photo chooser, real upload/completion/download/removal, removed-member fresh Storage denial and deletion with actual photo objects remain unverified. Earlier PostgreSQL and object-free deletion receipts keep their original scope.
+No browser interaction, live Auth/Storage check, account or production row/object mutation, model call, schema/Auth/config/dependency/CI change, local app build or native capture occurred. Photo chooser, real upload/completion/download/removal, removed-member fresh Storage denial and deletion with actual photo objects remain unverified. Earlier PostgreSQL and object-free deletion receipts keep their original scope.
+
+## Publication
+
+Source [`5b9a864d60b8daaf3bbbd45b3f330a217da82e5c`](https://github.com/alvarovillalbaa/dearweek/commit/5b9a864d60b8daaf3bbbd45b3f330a217da82e5c) was published to personal `main` and matched the remote readback. Production deployment `dpl_GzxNmsEk21jgM6A28V6HJWdDwjgb` reached `READY` at that exact SHA with the Dearweek canonical alias. Build logs show the configured `tsc --noEmit && expo export --platform web && node scripts/finalize-web.mjs` completed; the unchanged lock declares TypeScript 6.0.3 and Expo 58.0.19. This is hosted build/typecheck proof, independent of the mocked test runner's TypeScript 5.9.3 transpilation.
+
+A connected HTTP fetch of [the app](https://dearweek.vercel.app/) returned 200 and referenced `_expo/static/js/web/index-dfe35b776328b3efe369364e21ea2e0d.js`, matching the emitted asset in those build logs. No sign-in, browser interaction or private-photo workflow was performed for that delivery check. Subsequent documentation-only commits retain these product/test bytes and do not expand acceptance.
